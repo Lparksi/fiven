@@ -18,6 +18,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Cache Go modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
@@ -29,8 +39,6 @@ jobs:
           distribution: goreleaser
           version: '~> v2'
           args: release --snapshot --clean
-        env:
-          GORELEASER_CURRENT_TAG: snapshot
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
