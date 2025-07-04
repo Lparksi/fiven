@@ -15,5 +15,8 @@ func main() {
 		})
 	})
 
-	r.Run(":8080")
+	err := r.Run(":8080")
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
 }
